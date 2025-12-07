@@ -10,6 +10,7 @@ A unified, type-safe React hook for integrating African payment gateways (Paysta
 -  **Unified API**: Switch between providers with a single config change
 -  **Standardized Responses**: Rich, consistent response objects with customer details, timestamps, and metadata
 -  **Robust Error Handling**: Custom error types with helpful recovery suggestions
+-  **Production-Ready Security**: Input sanitization, HTTPS enforcement, error redaction, and timeout protection
 -  **Lazy Loading**: SDKs loaded only when needed, keeping bundle size small
 -  **Type-Safe**: Full TypeScript support for configuration and responses
 -  **4 Major Providers**: Paystack, Flutterwave, Monnify, and Remita
@@ -207,6 +208,22 @@ Provider-specific requirements documented in table above.
 3. **Validate before payment**: Use the built-in validation or add your own checks
 4. **Log errors properly**: Use `error.code` and `error.provider` for debugging
 5. **Test with sandbox keys**: All providers offer test/sandbox environments
+6. **Verify on server**: Always verify payments on your backend before granting access
+
+## Security
+
+This library is built with security as a top priority:
+
+- ✅ **Input Sanitization**: All user inputs automatically sanitized
+- ✅ **HTTPS Enforcement**: Scripts loaded over HTTPS only
+- ✅ **Error Redaction**: Sensitive data automatically removed from logs
+- ✅ **Timeout Protection**: 30-second timeout with retry logic
+- ✅ **No Secret Keys**: Only public keys used client-side
+- ✅ **PCI-DSS Ready**: Follows payment security best practices
+
+**Important**: Always verify payments on your server. Never trust client-side callbacks alone.
+
+For detailed security guidelines, see [SECURITY.md](SECURITY.md).
 
 ## Contributing
 

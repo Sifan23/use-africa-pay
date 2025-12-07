@@ -12,6 +12,14 @@ import { PaystackAdapter } from './adapters/paystack';
 import { FlutterwaveAdapter } from './adapters/flutterwave';
 import { MonnifyAdapter } from './adapters/monnify';
 import { RemitaAdapter } from './adapters/remita';
+import {
+  sanitizeEmail,
+  sanitizeName,
+  sanitizePhone,
+  sanitizeReference,
+  sanitizeMetadata,
+  redactSensitiveData,
+} from './utils/sanitize';
 
 const ADAPTERS: Record<PaymentProvider, AdapterInterface> = {
   paystack: PaystackAdapter,
@@ -118,14 +126,27 @@ export const useAfricaPay = () => {
     }
 
     try {
-      // Validate configuration
-      validateConfig(props);
+      // Sanitize all user inputs before validation
+      const sanitizedConfig = {
+        ...config,
+        reference: sanitizeReference(config.reference),
+        user: {
+          email: sanitizeEmail(config.user.email),
+          name: config.user.name ? sanitizeName(config.user.name) : undefined,
+          phonenumber: config.user.phonenumber ? sanitizePhone(config.user.phonenumber) : undefined,
+          phone: config.user.phone ? sanitizePhone(config.user.phone) : undefined,
+        },
+        metadata: config.metadata ? sanitizeMetadata(config.metadata) : undefined,
+      };
+
+      // Validate configuration with sanitized data
+      validateConfig({ ...props, ...sanitizedConfig });
 
       // Lazy load the script
       await adapter.loadScript();
 
       adapter.initialize({
-        ...config,
+        ...sanitizedConfig,
         onSuccess: (response) => {
           setLoading(false);
           if (props.onSuccess) props.onSuccess(response);
@@ -142,14 +163,16 @@ export const useAfricaPay = () => {
 
       if (err instanceof PaymentError) {
         paymentError = err;
-      } else if (err.message?.includes('Failed to load script')) {
+      } else if (err.message?.includes('Failed to load script') || err.message?.includes('timeout')) {
         paymentError = new NetworkError(
           `Failed to load ${provider} payment script`,
           provider
         );
       } else {
+        // Redact sensitive data from error messages
+        const safeMessage = redactSensitiveData(err.message || 'Payment initialization failed');
         paymentError = new PaymentError(
-          err.message || 'Payment initialization failed',
+          safeMessage,
           'UNKNOWN_ERROR',
           provider,
           'Please try again or contact support if the issue persists'
@@ -157,7 +180,12 @@ export const useAfricaPay = () => {
       }
 
       setError(paymentError);
-      console.error('[use-africa-pay]', paymentError);
+      // Redact sensitive data from console logs
+      console.error('[use-africa-pay]', {
+        code: paymentError.code,
+        provider: paymentError.provider,
+        message: redactSensitiveData(paymentError.message),
+      });
 
       if (onError) onError(paymentError);
     }
