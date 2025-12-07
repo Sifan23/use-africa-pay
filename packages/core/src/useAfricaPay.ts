@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PaymentProvider, AdapterConfig, AdapterInterface } from './types';
+import { PaymentProvider, AdapterConfig, AdapterInterface, PaymentResponse } from './types';
 import { PaystackAdapter } from './adapters/paystack';
 import { FlutterwaveAdapter } from './adapters/flutterwave';
 import { MonnifyAdapter } from './adapters/monnify';
@@ -10,23 +10,28 @@ const ADAPTERS: Record<PaymentProvider, AdapterInterface> = {
   monnify: MonnifyAdapter,
 };
 
-export interface UseAfricaPayProps {
+export interface InitializePaymentProps extends Omit<AdapterConfig, 'onSuccess' | 'onClose'> {
   provider: PaymentProvider;
-  config: Omit<AdapterConfig, 'onSuccess' | 'onClose'> & {
-    onSuccess?: (response: any) => void;
-    onClose?: () => void;
-  };
+  onSuccess?: (response: PaymentResponse) => void;
+  onClose?: () => void;
 }
 
-export const useAfricaPay = ({ provider, config }: UseAfricaPayProps) => {
+export const useAfricaPay = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const adapter = ADAPTERS[provider];
-
-  const pay = async () => {
+  const initializePayment = async (props: InitializePaymentProps) => {
     setLoading(true);
     setError(null);
+
+    const { provider, ...config } = props;
+    const adapter = ADAPTERS[provider];
+
+    if (!adapter) {
+      setLoading(false);
+      setError(`Invalid provider: ${provider}`);
+      return;
+    }
 
     try {
       // Lazy load the script
@@ -44,11 +49,11 @@ export const useAfricaPay = ({ provider, config }: UseAfricaPayProps) => {
         ...config,
         onSuccess: (response) => {
           setLoading(false);
-          if (config.onSuccess) config.onSuccess(response);
+          if (props.onSuccess) props.onSuccess(response);
         },
         onClose: () => {
           setLoading(false);
-          if (config.onClose) config.onClose();
+          if (props.onClose) props.onClose();
         },
       });
     } catch (err: any) {
@@ -58,5 +63,5 @@ export const useAfricaPay = ({ provider, config }: UseAfricaPayProps) => {
     }
   };
 
-  return { pay, loading, error };
+  return { initializePayment, loading, error };
 };
