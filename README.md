@@ -4,10 +4,10 @@ A unified, type-safe React hook for integrating African payment gateways (Paysta
 
 ## Features
 
-- 🌍 **Unified API**: Switch between providers (Paystack, Flutterwave, Monnify) with a single config change.
-- 🚀 **Lazy Loading**: SDKs are loaded only when needed, keeping your bundle size small.
-- 🛡️ **Type-Safe**: Full TypeScript support for configuration and responses.
-- 🧩 **Extensible**: Easy to add more providers in the future.
+-  **Unified API**: Switch between providers (Paystack, Flutterwave, Monnify) with a single config change.
+-  **Lazy Loading**: SDKs are loaded only when needed, keeping your bundle size small.
+-  **Type-Safe**: Full TypeScript support for configuration and responses.
+-  **Extensible**: Easy to add more providers in the future.
 
 ## Installation
 
@@ -73,4 +73,4 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 
 ## License
 
-MIT © [Your Name]
+MIT © [Idy Williams]

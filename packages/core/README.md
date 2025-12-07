@@ -16,4 +16,4 @@ import { useAfricaPay } from '@use-africa-pay/core';
 // ... see root README for full usage examples
 ```
 
-See the [main repository](https://github.com/YOUR_USERNAME/use-africa-pay) for full documentation.
+See the [main repository](https://github.com/idyWilliams/use-africa-pay) for full documentation.
