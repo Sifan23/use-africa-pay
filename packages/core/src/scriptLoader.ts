@@ -1,7 +1,7 @@
 const LOADED_SCRIPTS: Record<string, Promise<void>> = {};
 
 export const loadScript = (src: string): Promise<void> => {
-  if (LOADED_SCRIPTS[src]) return LOADED_SCRIPTS[src];
+  if (LOADED_SCRIPTS[src] !== undefined) return LOADED_SCRIPTS[src];
 
   LOADED_SCRIPTS[src] = new Promise((resolve, reject) => {
     if (document.querySelector(`script[src="${src}"]`)) {
