@@ -1,5 +1,7 @@
 # use-africa-pay
 
+![alt text](vscode-file://vscode-app/Users/mac/.gemini/antigravity/brain/c876206b-1d16-4883-bcf6-e2f7504596eb/use_africa_pay_icon_1765069235103.png)
+
 A unified, type-safe React hook for integrating African payment gateways (Paystack, Flutterwave, Monnify) into your application.
 
 ## Features
