@@ -25,12 +25,19 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Build
+      - name: Build All Packages
         run: pnpm build
 
-      - name: Publish
+      - name: Publish Core Package
         run: |
           cd packages/core
+          pnpm publish --no-git-checks --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish React Native Package
+        run: |
+          cd packages/react-native
           pnpm publish --no-git-checks --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
