@@ -1,0 +1,51 @@
+{
+  "name": "@use-africa-pay/react-native",
+  "version": "0.1.0",
+  "description": "React Native payment integration for African payment gateways (Paystack, Flutterwave, Monnify, Remita)",
+  "keywords": [
+    "react-native",
+    "payment",
+    "africa",
+    "paystack",
+    "flutterwave",
+    "monnify",
+    "remita",
+    "mobile"
+  ],
+  "author": "Idy Williams",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idyWilliams/use-africa-pay.git",
+    "directory": "packages/react-native"
+  },
+  "bugs": {
+    "url": "https://github.com/idyWilliams/use-africa-pay/issues"
+  },
+  "homepage": "https://github.com/idyWilliams/use-africa-pay#readme",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-native": ">=0.64.0"
+  },
+  "dependencies": {
+    "react-native-paystack-webview": "^4.0.0",
+    "react-native-flutterwave": "^1.0.0",
+    "react-native-webview": "^13.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-native": "^0.72.0"
+  }
+}
