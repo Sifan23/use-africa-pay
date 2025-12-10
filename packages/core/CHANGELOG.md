@@ -1,5 +1,11 @@
 # @use-africa-pay/core
 
+## 1.1.1
+
+### Patch Changes
+
+- Republish v1.1.0 changes as v1.1.1 due to previous publish issue
+
 ## 1.1.0
 
 ### Minor Changes
