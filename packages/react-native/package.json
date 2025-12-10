@@ -23,8 +23,16 @@
     "url": "https://github.com/idyWilliams/use-africa-pay/issues"
   },
   "homepage": "https://github.com/idyWilliams/use-africa-pay#readme",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist",
     "src"
