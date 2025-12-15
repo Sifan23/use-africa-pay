@@ -46,7 +46,7 @@ yarn add @use-africa-pay/core
 ## Quick Start
 
 ```tsx
-import { useAfricaPay } from '@use-africa-pay/core';
+import { useAfricaPay, PaystackAdapter } from '@use-africa-pay/core';
 
 const PaymentComponent = () => {
   const { initializePayment, loading, error, reset } = useAfricaPay();
@@ -54,6 +54,7 @@ const PaymentComponent = () => {
   const handlePayment = () => {
     initializePayment({
       provider: 'paystack', // or 'flutterwave', 'monnify', 'remita'
+      adapter: PaystackAdapter, // Required: Pass the adapter instance
       publicKey: 'YOUR_PUBLIC_KEY',
       amount: 500000, // Amount in kobo (lowest denomination)
       currency: 'NGN',
@@ -160,8 +161,12 @@ initializePayment({
 ### Remita
 
 ```tsx
+import { useAfricaPay, RemitaAdapter } from '@use-africa-pay/core';
+
+// ... inside component
 initializePayment({
   provider: 'remita',
+  adapter: RemitaAdapter,
   publicKey: 'YOUR_REMITA_PUBLIC_KEY',
   merchantId: 'YOUR_MERCHANT_ID',
   serviceTypeId: 'YOUR_SERVICE_TYPE_ID',
@@ -181,8 +186,12 @@ initializePayment({
 ### Monnify
 
 ```tsx
+import { useAfricaPay, MonnifyAdapter } from '@use-africa-pay/core';
+
+// ... inside component
 initializePayment({
   provider: 'monnify',
+  adapter: MonnifyAdapter,
   publicKey: 'YOUR_MONNIFY_PUBLIC_KEY',
   contractCode: 'YOUR_CONTRACT_CODE', // Required
   amount: 500000,
